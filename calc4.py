@@ -53,6 +53,12 @@ class Lexer(object):
             if self.current_char == "/":
                 self.advance()
                 return Token(DIV,"/")
+            if self.current_char == "+":
+                self.advance()
+                return Token(PLUS,"+")
+            if self.current_char == "-":
+                self.advance()
+                return Token(MINUS,"-")
             self.error()
         return Token(EOF,None)
 
@@ -76,7 +82,7 @@ class Interpreter(object):
 
     def expr(self):
         result = self.factor()
-        while self.current_token.type in (MULTI,DIV):
+        while self.current_token.type in (MULTI,DIV,PLUS,MINUS):
             token = self.current_token
             if token.type == MULTI:
                 self.eat(MULTI)
@@ -84,6 +90,12 @@ class Interpreter(object):
             if token.type == DIV:
                 self.eat(DIV)
                 result = result/self.factor()
+            if token.type == MINUS:
+                self.eat(MINUS)
+                result = result-self.factor()
+            if token.type == PLUS:
+                self.eat(PLUS)
+                result = result+self.factor()
         return result
 
 
