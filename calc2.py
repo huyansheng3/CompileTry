@@ -44,7 +44,7 @@ class Interpreter(object):
         while self.current_char is not None:
             if self.current_char.isspace():
                 self.skip_whitespace()
-                continue
+                continue  # end here ,jump to the while  ; if is the break,jump out of the loop
             if self.current_char.isdigit():
                 return Token(INTEGER,self.integer())
             if self.current_char == "+":
